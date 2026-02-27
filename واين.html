@@ -1,0 +1,2333 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VN PDF - أدوات PDF الاحترافية</title>
+    
+    <!-- Meta tags أساسية محسنة -->
+    <meta name="description" content="أدوات PDF مجانية متكاملة: دمج، تقسيم، عكس، تحويل الصور، خرائط ذهنية وأكثر. سريعة وآمنة بدون رفع ملفات.">
+    <meta name="keywords" content="أدوات PDF, دمج PDF, تقسيم PDF, تحويل PDF إلى صور, خريطة ذهنية, PDF Editor, PDF merger, split PDF, مجاني, عربي">
+    <meta name="author" content="المهندس حسن فلاح">
+    <meta name="theme-color" content="#1877F2">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pdf-fox-tools.vercel.app/">
+    <meta property="og:title" content="VN PDF - أدوات PDF الاحترافية">
+    <meta property="og:description" content="أدوات PDF مجانية متكاملة: دمج، تقسيم، عكس، تحويل الصور، خرائط ذهنية وأكثر.">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1877F2/ffffff?text=VN+PDF">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://pdf-fox-tools.vercel.app/">
+    <meta property="twitter:title" content="VN PDF - أدوات PDF الاحترافية">
+    <meta property="twitter:description" content="أدوات PDF مجانية متكاملة: دمج، تقسيم، عكس، تحويل الصور، خرائط ذهنية وأكثر.">
+    <meta property="twitter:image" content="https://via.placeholder.com/1200x630/1877F2/ffffff?text=VN+PDF">
+    
+    <!-- hreflang للغات (للنسخ المنفصلة) -->
+    <link rel="alternate" href="https://pdf-fox-tools.vercel.app/ar" hreflang="ar">
+    <link rel="alternate" href="https://pdf-fox-tools.vercel.app/en" hreflang="en">
+    <link rel="alternate" href="https://pdf-fox-tools.vercel.app/" hreflang="x-default">
+
+    <!-- Manifest محدث بدون ثعلب -->
+    <link rel="manifest" href="data:application/manifest+json,{
+        &quot;name&quot;: &quot;VN PDF&quot;,
+        &quot;short_name&quot;: &quot;VN PDF&quot;,
+        &quot;description&quot;: &quot;أدوات PDF احترافية مجانية&quot;,
+        &quot;start_url&quot;: &quot;/&quot;,
+        &quot;display&quot;: &quot;standalone&quot;,
+        &quot;background_color&quot;: &quot;#1877F2&quot;,
+        &quot;theme_color&quot;: &quot;#1877F2&quot;,
+        &quot;icons&quot;: [{
+            &quot;src&quot;: &quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%231877F2'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3EVN%3C/text%3E%3C/svg%3E&quot;,
+            &quot;sizes&quot;: &quot;192x192&quot;,
+            &quot;type&quot;: &quot;image/svg+xml&quot;
+        }]
+    }">
+    
+    <!-- Structured Data (JSON-LD) محدث بدون ثعلب -->
+    <script id="structured-data" type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "VN PDF",
+        "url": "https://pdf-fox-tools.vercel.app",
+        "logo": "https://via.placeholder.com/512x512/1877F2/ffffff?text=VN",
+        "description": "أدوات PDF احترافية مجانية تعمل بالكامل في المتصفح",
+        "email": "hsnf313@example.com",
+        "telephone": "07735590981",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "الكوت",
+            "addressRegion": "واسط",
+            "addressCountry": "IQ"
+        }
+    }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- المكتبات الأساسية -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.16.1/dist/browser/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.16.1/dist/browser/index.min.js"></script>
+
+    <style>
+        /* الأنماط كما هي دون تغيير */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg: #FFFFFF;
+            --fg: #1E1E1E;
+            --card: #FFFFFF;
+            --primary: #1877F2;
+            --primary-fg: #FFFFFF;
+            --action: #34A853;
+            --action-fg: #FFFFFF;
+            --secondary: #F8F9FA;
+            --muted: #5F5F5F;
+            --border: #E5E7EB;
+        }
+        
+        .dark {
+            --bg: #121212;
+            --fg: #F8F9FA;
+            --card: #1E1E1E;
+            --primary: #1877F2;
+            --action: #34A853;
+            --secondary: #2D2D2D;
+            --muted: #9CA3AF;
+            --border: #374151;
+        }
+        
+        body {
+            font-family: 'Inter', 'Poppins', sans-serif;
+            font-size: 16px;
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 40px 20px 20px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--primary), #4A90E2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .header p {
+            color: var(--muted);
+            font-size: 1.1rem;
+        }
+        
+        .theme-toggle,
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--card);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+        
+        .theme-toggle {
+            left: 20px;
+        }
+        
+        .lang-toggle {
+            right: 80px;
+        }
+        
+        .theme-toggle:hover,
+        .lang-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .user-count {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 2px 10px rgba(24,119,242,0.3);
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .tool-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), #4A90E2);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        
+        .tool-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px rgba(24,119,242,0.15);
+            border-color: var(--primary);
+        }
+        
+        .tool-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 15px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            transition: transform 0.3s;
+        }
+        
+        .tool-card:hover .tool-icon {
+            transform: scale(1.05);
+        }
+        
+        .tool-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .tool-card p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+        
+        .banner-ad {
+            max-width: 800px;
+            margin: 20px auto;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), #4A90E2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            display: none;
+            height: auto;
+        }
+        
+        .banner-ad img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            max-height: 125px;
+            background: linear-gradient(135deg, var(--primary), #4A90E2);
+        }
+        
+        .banner-ad .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 24px;
+            height: 24px;
+            background: rgba(0,0,0,0.5);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        
+        .banner-ad .close-btn:hover {
+            background: rgba(0,0,0,0.7);
+        }
+        
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--primary-fg);
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 5px 20px rgba(24,119,242,0.4);
+            transform: translateY(-2px);
+        }
+        
+        .btn-action {
+            background: var(--action);
+            color: var(--action-fg);
+        }
+        
+        .btn-action:hover {
+            box-shadow: 0 5px 20px rgba(52,168,83,0.4);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--fg);
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-full {
+            width: 100%;
+        }
+        
+        .btn-danger {
+            background: #EF4444;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #DC2626;
+        }
+        
+        .upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 20px;
+            padding: 50px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: var(--secondary);
+        }
+        
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--primary);
+            background: rgba(24,119,242,0.05);
+            transform: scale(1.01);
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--secondary);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
+        }
+        
+        .file-item span {
+            flex: 1;
+        }
+        
+        .file-item button {
+            background: none;
+            border: none;
+            color: #EF4444;
+            cursor: pointer;
+            font-size: 18px;
+            transition: color 0.2s;
+        }
+        
+        .file-item button:hover {
+            color: #DC2626;
+        }
+        
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: var(--card);
+            border-radius: 24px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+        
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--card);
+            z-index: 10;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .modal-header button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--muted);
+            transition: color 0.2s;
+        }
+        
+        .modal-header button:hover {
+            color: var(--fg);
+        }
+        
+        .modal-body {
+            padding: 20px;
+            line-height: 1.7;
+        }
+        
+        /* مودال الـ Reels */
+        .reels-modal .modal-content {
+            max-width: 400px;
+            background: var(--bg);
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .reels-container {
+            height: 80vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .reels-item {
+            scroll-snap-align: start;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary);
+            border-bottom: 2px solid var(--border);
+            padding: 20px;
+        }
+        
+        .reels-item img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        
+        .reels-item .reels-title {
+            margin-top: 16px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+        
+        .reels-item .reels-desc {
+            color: var(--muted);
+            font-size: 14px;
+            text-align: center;
+            margin-top: 8px;
+        }
+        
+        .services-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .services-card:hover {
+            border-color: var(--primary);
+            background: rgba(24,119,242,0.02);
+        }
+        
+        .services-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #F59E0B, #EF4444);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        
+        .donation-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #EC4899, #F43F5E);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(236,72,153,0.2);
+        }
+        
+        .donation-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(236,72,153,0.3);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--muted);
+            font-size: 14px;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--card);
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 3000;
+            transform: translateX(150%);
+            transition: transform 0.3s;
+            border: 1px solid var(--border);
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--secondary);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: var(--fg);
+            transition: background 0.3s;
+        }
+        
+        .contact-item:hover {
+            background: var(--border);
+        }
+        
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: color 0.2s;
+        }
+        
+        .back-btn:hover {
+            color: var(--primary);
+        }
+        
+        .range-item {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            padding: 15px;
+            background: var(--secondary);
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .range-item input {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+            background: var(--card);
+            color: var(--fg);
+        }
+        
+        .page-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--secondary);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            cursor: grab;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .page-item:active {
+            cursor: grabbing;
+            background: rgba(24,119,242,0.05);
+        }
+        
+        .page-item.dragging {
+            opacity: 0.5;
+            border-color: var(--primary);
+        }
+        
+        .image-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .image-preview img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        .mindmap-container {
+            width: 100%;
+            height: 500px;
+            background: var(--secondary);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-top: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .mindmap-container svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .loader-spinner {
+            border: 4px solid rgba(0,0,0,0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border-left-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8rem; }
+            .user-count { font-size: 12px; padding: 8px 15px; }
+            .tools-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            .tool-card { padding: 20px; }
+            .tool-icon { width: 50px; height: 50px; font-size: 24px; }
+            .banner-ad img { max-height: 100px; }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="window.toggleTheme()">🌙</button>
+    <button class="lang-toggle" onclick="window.toggleLanguage()">EN</button>
+    <div class="user-count">👥 <span id="userCount">---</span> <span data-i18n="users">مستخدم</span></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 data-i18n="appTitle">📄 VN PDF</h1>
+            <p data-i18n="appSubtitle">أدوات PDF الاحترافية - سريعة وآمنة</p>
+        </div>
+        
+        <!-- Banner Ad -->
+        <div class="banner-ad" id="bannerAd">
+            <img id="bannerImage" src="" alt="إعلان">
+            <button class="close-btn" onclick="window.closeBanner(event)">×</button>
+        </div>
+        
+        <div id="mainView">
+            <div class="tools-grid">
+                <div class="tool-card" onclick="window.openTool('merge')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #3B82F6, #1D4ED8);">📄</div>
+                    <h3 data-i18n="mergeTitle">دمج PDF</h3>
+                    <p data-i18n="mergeDesc">دمج عدة ملفات في ملف واحد</p>
+                </div>
+                <div class="tool-card" onclick="window.openTool('split')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #22C55E, #16A34A);">✂️</div>
+                    <h3 data-i18n="splitTitle">تقسيم PDF</h3>
+                    <p data-i18n="splitDesc">تقسيم بنطاقات متعددة</p>
+                </div>
+                <div class="tool-card" onclick="window.openTool('reverse')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #A855F7, #7C3AED);">↕️</div>
+                    <h3 data-i18n="reverseTitle">عكس PDF</h3>
+                    <p data-i18n="reverseDesc">عكس ترتيب الصفحات</p>
+                </div>
+                <div class="tool-card" onclick="window.openTool('imageToPdf')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #F97316, #EA580C);">🖼️</div>
+                    <h3 data-i18n="imageToPdfTitle">صور إلى PDF</h3>
+                    <p data-i18n="imageToPdfDesc">تحويل الصور بحجم A4</p>
+                </div>
+                <div class="tool-card" onclick="window.openTool('pdfToImage')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #EF4444, #B91C1C);">📸</div>
+                    <h3 data-i18n="pdfToImageTitle">PDF إلى صور</h3>
+                    <p data-i18n="pdfToImageDesc">استخراج صفحات كصور</p>
+                </div>
+                <div class="tool-card" onclick="window.openTool('reorder')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #EC4899, #DB2777);">📑</div>
+                    <h3 data-i18n="reorderTitle">إعادة ترتيب</h3>
+                    <p data-i18n="reorderDesc">سحب وإفلات الصفحات</p>
+                </div>
+                <div class="tool-card" onclick="window.openTool('mindmap')">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #14B8A6, #0D9488);">🧠</div>
+                    <h3 data-i18n="mindmapTitle">خريطة ذهنية</h3>
+                    <p data-i18n="mindmapDesc">تحليل النص وعمل خريطة</p>
+                </div>
+            </div>
+            
+            <!-- بطاقة "خدمات قد تفيدك" تفتح Reels مباشر -->
+            <div class="card services-card" onclick="window.openReelsModal()">
+                <div class="services-icon">⚙️</div>
+                <div style="flex:1">
+                    <h3 style="font-weight:700" data-i18n="servicesTitle">خدمات قد تفيدك</h3>
+                    <p style="color:var(--muted);font-size:14px" data-i18n="servicesSubtitle">تصفح إعلانات وخدمات مميزة</p>
+                </div>
+                <span style="color:var(--muted)">←</span>
+            </div>
+            
+            <div style="text-align:center;margin:30px 0">
+                <button class="donation-btn" onclick="window.openModal('contactModal')">
+                    ❤️ <span data-i18n="donate">تبرع لدعم المشروع</span>
+                </button>
+            </div>
+        </div>
+        
+        <div id="toolView" style="display:none">
+            <div class="card">
+                <div class="back-btn" onclick="window.closeTool()">→ <span data-i18n="back">رجوع</span></div>
+                <h2 id="toolTitle" style="text-align:center;margin-bottom:20px"></h2>
+                <div id="toolContent"></div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-links">
+                <a href="#" onclick="window.openModal('aboutModal'); return false;" data-i18n="about">About</a>
+                <a href="#" onclick="window.openModal('privacyModal'); return false;" data-i18n="privacy">Privacy</a>
+                <a href="#" onclick="window.openModal('termsModal'); return false;" data-i18n="terms">Terms</a>
+                <a href="#" onclick="window.openModal('cookiesModal'); return false;" data-i18n="cookies">Cookies</a>
+            </div>
+            <p><strong data-i18n="developer">برمجة وبناء المهندس حسن فلاح</strong></p>
+            <p data-i18n="address">مكتبة غدير خم / الكوت / حي الحوراء / شارع المله</p>
+            <p dir="ltr">07735590981</p>
+            <p style="margin-top:15px;font-size:12px">© 2024 جميع الحقوق محفوظة</p>
+        </div>
+    </div>
+    
+    <!-- مودال الـ Reels -->
+    <div class="modal reels-modal" id="reelsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-i18n="reelsTitle">📱 إعلانات مميزة</h2>
+                <button onclick="window.closeModal('reelsModal')">×</button>
+            </div>
+            <div class="reels-container" id="reelsContainer"></div>
+        </div>
+    </div>
+    
+    <!-- About Modal -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-i18n="about">About VN PDF</h2>
+                <button onclick="window.closeModal('aboutModal')">×</button>
+            </div>
+            <div class="modal-body" data-i18n-html="aboutContent">
+                <h3>About VN PDF</h3>
+                <p>VN PDF is a privacy-focused, browser-based PDF toolkit designed to provide fast, secure, and efficient document processing directly on your device.</p>
+                <p>Unlike traditional online PDF services that upload files to remote servers, VN PDF processes all files locally within your browser. Your documents never leave your device, ensuring maximum confidentiality and control.</p>
+                <h4>Our Mission</h4>
+                <p>Our mission is simple: To deliver powerful PDF tools without compromising user privacy. We believe digital convenience should not require sacrificing data security.</p>
+                <h4>What We Offer</h4>
+                <p>VN PDF provides: PDF merging, PDF splitting, PDF compression, PDF format conversion, Mobile and desktop compatibility, Instant browser-based processing. All operations are performed entirely within your device environment.</p>
+                <h4>Why Choose VN PDF?</h4>
+                <ul>
+                    <li>🔒 No file uploads</li>
+                    <li>⚡ Fast local processing</li>
+                    <li>🌍 Accessible worldwide</li>
+                    <li>📱 Optimized for smartphones</li>
+                    <li>🛡 Privacy-first architecture</li>
+                    <li>🚫 No account required</li>
+                </ul>
+                <p>Your documents remain yours — always.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Privacy Modal -->
+    <div class="modal" id="privacyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-i18n="privacy">Privacy Policy</h2>
+                <button onclick="window.closeModal('privacyModal')">×</button>
+            </div>
+            <div class="modal-body" data-i18n-html="privacyContent">
+                <h3>Privacy Policy</h3>
+                <p><strong>Effective Date: [Insert Date]</strong></p>
+                <p>VN PDF respects your privacy and is committed to protecting user data. This Privacy Policy explains how information is handled when you use our services.</p>
+                <h4>1. Local File Processing</h4>
+                <p>All PDF operations are performed locally in your browser. VN PDF: Does NOT upload your files to any server, Does NOT store your documents, Does NOT access your file contents. Your documents remain on your device at all times.</p>
+                <h4>2. Personal Information</h4>
+                <p>VN PDF does not require account registration. We do not collect: Names, Passwords, Uploaded document contents, Account credentials.</p>
+                <h4>3. Technical & Usage Data</h4>
+                <p>We may collect limited non-personal technical information such as: Browser type, Device type, Anonymous usage statistics. This data is used solely to improve service performance and reliability.</p>
+                <h4>4. Third-Party Services</h4>
+                <p>VN PDF may use third-party infrastructure providers such as Supabase for backend configuration and hosting support. These providers do NOT have access to user PDF files. No personal document content is transmitted to any external service.</p>
+                <h4>5. Cookies</h4>
+                <p>We use essential cookies necessary for: Website functionality, Interface preferences, Basic performance optimization. We do not use advertising or behavioral tracking cookies.</p>
+                <h4>6. Children's Privacy</h4>
+                <p>VN PDF is not directed to children under the age of 13. We do not knowingly collect personal data from minors.</p>
+                <h4>7. Data Security</h4>
+                <p>Because all document processing occurs locally and files are never transmitted, the risk of server-side document breaches is eliminated by design. Users remain responsible for securing their own devices.</p>
+                <h4>8. International Users (GDPR & CCPA Compliance)</h4>
+                <p>Depending on your jurisdiction, you may have rights regarding data access and deletion. Since VN PDF does not store personal accounts or documents, most privacy rights are inherently fulfilled by architecture.</p>
+                <h4>9. Changes to This Policy</h4>
+                <p>We may update this Privacy Policy periodically. Continued use of the service indicates acceptance of any changes.</p>
+                <h4>10. Contact</h4>
+                <p>For privacy inquiries: <a href="mailto:vnpdf@proton.me">vnpdf@proton.me</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Terms Modal -->
+    <div class="modal" id="termsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-i18n="terms">Terms of Service</h2>
+                <button onclick="window.closeModal('termsModal')">×</button>
+            </div>
+            <div class="modal-body" data-i18n-html="termsContent">
+                <h3>Terms of Service</h3>
+                <p><strong>Effective Date: [Insert Date]</strong></p>
+                <p>By accessing or using VN PDF, you agree to the following terms:</p>
+                <h4>1. Service Description</h4>
+                <p>VN PDF provides browser-based tools for processing PDF documents locally on user devices.</p>
+                <h4>2. Acceptable Use</h4>
+                <p>You agree not to use VN PDF for: Illegal activities, Processing unlawful or prohibited content, Attempting to exploit, disrupt, or reverse engineer the platform. You are solely responsible for the documents you process.</p>
+                <h4>3. No Warranty</h4>
+                <p>The service is provided "as is" and "as available." VN PDF makes no guarantees regarding: Continuous availability, Error-free operation, Compatibility with all systems.</p>
+                <h4>4. Limitation of Liability</h4>
+                <p>VN PDF shall not be liable for: Data loss occurring on user devices, Corruption of files, Indirect or consequential damages. Users are responsible for maintaining backups of their documents.</p>
+                <h4>5. Service Modifications</h4>
+                <p>We reserve the right to modify or discontinue any part of the service without prior notice.</p>
+                <h4>6. Governing Law</h4>
+                <p>These Terms shall be governed by applicable international digital service laws.</p>
+                <h4>7. Acceptance</h4>
+                <p>By using VN PDF, you acknowledge that you have read and agreed to these Terms.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cookies Modal -->
+    <div class="modal" id="cookiesModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-i18n="cookies">Cookie Notice</h2>
+                <button onclick="window.closeModal('cookiesModal')">×</button>
+            </div>
+            <div class="modal-body" data-i18n-html="cookiesContent">
+                <h3>Cookie Notice</h3>
+                <p>VN PDF uses essential cookies required for website functionality.</p>
+                <p>We may use cookies to: Maintain basic site performance, Store interface preferences, Improve user experience.</p>
+                <p>We do not use: Advertising cookies, Third-party marketing trackers, Behavioral profiling technologies.</p>
+                <p>By continuing to use VN PDF, you consent to the use of essential cookies.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contact Modal -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-i18n="contactTitle">للتواصل والإعلان</h2>
+                <button onclick="window.closeModal('contactModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <p style="color:var(--muted);margin-bottom:20px" data-i18n="contactDesc">للإعلان أو الاستفسار، تواصل معنا عبر:</p>
+                <a href="https://t.me/hsnf313" target="_blank" class="contact-item">
+                    <div class="contact-icon" style="background:#0088CC">📱</div>
+                    <div><strong>تليغرام</strong><p style="font-size:13px;color:var(--muted)" dir="ltr">@hsnf313</p></div>
+                </a>
+                <a href="tel:07735590981" class="contact-item">
+                    <div class="contact-icon" style="background:#22C55E">📞</div>
+                    <div><strong>اتصال</strong><p style="font-size:13px;color:var(--muted)" dir="ltr">07735590981</p></div>
+                </a>
+                <a href="https://wa.me/009647735590981" target="_blank" class="contact-item">
+                    <div class="contact-icon" style="background:#25D366">💬</div>
+                    <div><strong>واتساب</strong><p style="font-size:13px;color:var(--muted)" dir="ltr">009647735590981</p></div>
+                </a>
+                <div style="background:linear-gradient(135deg,#EC4899,#F43F5E);padding:20px;border-radius:12px;margin-top:20px;color:white;text-align:center">
+                    <p style="font-size:14px;opacity:0.9" data-i18n="donationNumberLabel">رقم التبرع - ماستر كارت</p>
+                    <p style="font-size:22px;font-weight:700;margin-top:5px" dir="ltr">3829227598</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // -------------------- إعدادات Supabase --------------------
+        const SUPABASE_URL = 'https://uaydatoqfdouxjkabctg.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_wI4UxONc2Hg_pWCE9nGwMw_udo6YOR4';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // -------------------- الترجمة الكاملة (محدثة لإزالة الثعلب) --------------------
+        const translations = {
+            ar: {
+                appTitle: '📄 VN PDF',
+                appSubtitle: 'أدوات PDF الاحترافية - سريعة وآمنة',
+                servicesTitle: 'خدمات قد تفيدك',
+                servicesSubtitle: 'تصفح إعلانات وخدمات مميزة',
+                donate: 'تبرع لدعم المشروع',
+                back: 'رجوع',
+                developer: 'برمجة وبناء المهندس حسن فلاح',
+                address: 'مكتبة غدير خم / الكوت / حي الحوراء / شارع المله',
+                reelsTitle: '📱 إعلانات مميزة',
+                users: 'مستخدم',
+                mergeTitle: 'دمج PDF',
+                mergeDesc: 'دمج عدة ملفات في ملف واحد',
+                splitTitle: 'تقسيم PDF',
+                splitDesc: 'تقسيم بنطاقات متعددة',
+                reverseTitle: 'عكس PDF',
+                reverseDesc: 'عكس ترتيب الصفحات',
+                imageToPdfTitle: 'صور إلى PDF',
+                imageToPdfDesc: 'تحويل الصور بحجم A4',
+                pdfToImageTitle: 'PDF إلى صور',
+                pdfToImageDesc: 'استخراج صفحات كصور',
+                reorderTitle: 'إعادة ترتيب',
+                reorderDesc: 'سحب وإفلات الصفحات',
+                mindmapTitle: 'خريطة ذهنية',
+                mindmapDesc: 'تحليل النص وعمل خريطة',
+                mergeSuccess: '✅ تم الدمج بنجاح!',
+                mergeError: '❌ حدث خطأ أثناء الدمج',
+                splitSuccess: '✅ تم التقسيم بنجاح!',
+                splitError: '❌ حدث خطأ أثناء التقسيم',
+                reverseSuccess: '✅ تم عكس الصفحات بنجاح!',
+                reverseError: '❌ حدث خطأ أثناء العكس',
+                imageToPdfSuccess: '✅ تم تحويل الصور إلى PDF بنجاح!',
+                imageToPdfError: '❌ حدث خطأ أثناء التحويل',
+                pdfToImageSuccess: '✅ تم استخراج الصور بنجاح!',
+                pdfToImageError: '❌ حدث خطأ أثناء استخراج الصور',
+                reorderSuccess: '✅ تم حفظ الترتيب الجديد!',
+                reorderError: '❌ حدث خطأ أثناء إعادة الترتيب',
+                mindmapSuccess: '✅ تم إنشاء الخريطة الذهنية!',
+                mindmapError: '❌ حدث خطأ أثناء إنشاء الخريطة',
+                processing: 'جاري المعالجة...',
+                reading: 'جاري قراءة الملف...',
+                selectAtLeastTwo: 'يرجى اختيار ملفين على الأقل',
+                invalidRange: 'يرجى تحديد نطاق صفحات صحيح',
+                contactTitle: 'للتواصل والإعلان',
+                contactDesc: 'للإعلان أو الاستفسار، تواصل معنا عبر:',
+                donationNumberLabel: 'رقم التبرع - ماستر كارت',
+                about: 'حول',
+                privacy: 'الخصوصية',
+                terms: 'الشروط',
+                cookies: 'ملفات تعريف الارتباط',
+                aboutContent: `
+                    <h3>حول VN PDF</h3>
+                    <p>VN PDF هي مجموعة أدوات PDF تعتمد على المتصفح وتركز على الخصوصية، ومصممة لتوفير معالجة سريعة وآمنة وفعالة للمستندات مباشرة على جهازك.</p>
+                    <p>على عكس خدمات PDF التقليدية عبر الإنترنت التي تقوم بتحميل الملفات إلى خوادم بعيدة، تقوم VN PDF بمعالجة جميع الملفات محليًا داخل متصفحك. لا تغادر مستنداتك جهازك أبدًا، مما يضمن السرية والتحكم الكاملين.</p>
+                    <h4>مهمتنا</h4>
+                    <p>مهمتنا بسيطة: تقديم أدوات PDF قوية دون المساس بخصوصية المستخدم. نعتقد أن الرقمنة لا ينبغي أن تتطلب التضحية بأمن البيانات.</p>
+                    <h4>ما نقدمه</h4>
+                    <p>توفر VN PDF: دمج PDF، تقسيم PDF، ضغط PDF، تحويل تنسيق PDF، التوافق مع الجوال وسطح المكتب، معالجة فورية في المتصفح. يتم تنفيذ جميع العمليات بالكامل داخل بيئة جهازك.</p>
+                    <h4>لماذا تختار VN PDF؟</h4>
+                    <ul>
+                        <li>🔒 لا رفع للملفات</li>
+                        <li>⚡ معالجة محلية سريعة</li>
+                        <li>🌍 متاحة في جميع أنحاء العالم</li>
+                        <li>📱 محسّنة للهواتف الذكية</li>
+                        <li>🛡 بنية تركز على الخصوصية أولاً</li>
+                        <li>🚫 لا يتطلب حسابًا</li>
+                    </ul>
+                    <p>مستنداتك تظل ملكك — دائمًا.</p>
+                `,
+                privacyContent: `
+                    <h3>سياسة الخصوصية</h3>
+                    <p><strong>تاريخ السريان: [أدخل التاريخ]</strong></p>
+                    <p>تحترم VN PDF خصوصيتك وهي ملتزمة بحماية بيانات المستخدم. توضح سياسة الخصوصية هذه كيفية التعامل مع المعلومات عند استخدامك لخدماتنا.</p>
+                    <h4>1. معالجة الملفات محليًا</h4>
+                    <p>يتم تنفيذ جميع عمليات PDF محليًا في متصفحك. VN PDF: لا تقوم بتحميل ملفاتك إلى أي خادم، لا تخزن مستنداتك، لا تصل إلى محتويات ملفاتك. تبقى مستنداتك على جهازك في جميع الأوقات.</p>
+                    <h4>2. المعلومات الشخصية</h4>
+                    <p>لا تتطلب VN PDF تسجيل حساب. لا نقوم بجمع: الأسماء، كلمات المرور، محتويات المستندات المرفوعة، بيانات اعتماد الحساب.</p>
+                    <h4>3. البيانات التقنية ومعلومات الاستخدام</h4>
+                    <p>قد نقوم بجمع معلومات تقنية محدودة غير شخصية مثل: نوع المتصفح، نوع الجهاز، إحصائيات استخدام مجهولة. تُستخدم هذه البيانات فقط لتحسين أداء الخدمة وموثوقيتها.</p>
+                    <h4>4. خدمات الطرف الثالث</h4>
+                    <p>قد تستخدم VN PDF موفري بنية تحتية تابعين لجهات خارجية مثل Supabase لتكوين الخلفية ودعم الاستضافة. لا يمكن لهؤلاء المزودين الوصول إلى ملفات PDF الخاصة بالمستخدم. لا يتم إرسال أي محتوى مستند شخصي إلى أي خدمة خارجية.</p>
+                    <h4>5. ملفات تعريف الارتباط (Cookies)</h4>
+                    <p>نستخدم ملفات تعريف الارتباط الأساسية الضرورية من أجل: وظائف الموقع، تفضيلات الواجهة، تحسين الأداء الأساسي. لا نستخدم ملفات تعريف الارتباط الإعلانية أو تقنيات التتبع السلوكي.</p>
+                    <h4>6. خصوصية الأطفال</h4>
+                    <p>VN PDF غير موجهة للأطفال دون سن 13 عامًا. لا نقوم عن قصد بجمع بيانات شخصية من القُصّر.</p>
+                    <h4>7. أمان البيانات</h4>
+                    <p>نظرًا لأن جميع معالجة المستندات تتم محليًا ولا يتم إرسال الملفات أبدًا، فإن خطر اختراق المستندات من جانب الخادم يتم القضاء عليه من خلال التصميم. يظل المستخدمون مسؤولين عن تأمين أجهزتهم الخاصة.</p>
+                    <h4>8. المستخدمون الدوليون (الامتثال للائحة العامة لحماية البيانات GDPR وقانون خصوصية المستهلك في كاليفورنيا CCPA)</h4>
+                    <p>وفقًا لولايتك القضائية، قد تكون لديك حقوق فيما يتعلق بالوصول إلى البيانات وحذفها. نظرًا لأن VN PDF لا تخزن حسابات شخصية أو مستندات، فإن معظم حقوق الخصوصية يتم الوفاء بها بطبيعتها من خلال البنية.</p>
+                    <h4>9. التغييرات في هذه السياسة</h4>
+                    <p>قد نقوم بتحديث سياسة الخصوصية هذه بشكل دوري. الاستمرار في استخدام الخدمة يعني قبول أي تغييرات.</p>
+                    <h4>10. الاتصال</h4>
+                    <p>لاستفسارات الخصوصية: <a href="mailto:vnpdf@proton.me">vnpdf@proton.me</a></p>
+                `,
+                termsContent: `
+                    <h3>شروط الخدمة</h3>
+                    <p><strong>تاريخ السريان: [أدخل التاريخ]</strong></p>
+                    <p>باستخدامك لـ VN PDF، فإنك توافق على الشروط التالية:</p>
+                    <h4>1. وصف الخدمة</h4>
+                    <p>توفر VN PDF أدوات قائمة على المتصفح لمعالجة مستندات PDF محليًا على أجهزة المستخدم.</p>
+                    <h4>2. الاستخدام المقبول</h4>
+                    <p>أنت توافق على عدم استخدام VN PDF من أجل: الأنشطة غير القانونية، معالجة محتوى غير قانوني أو محظور، محاولة استغلال المنصة أو تعطيلها أو إجراء هندسة عكسية لها. أنت وحدك المسؤول عن المستندات التي تعالجها.</p>
+                    <h4>3. إخلاء المسؤولية</h4>
+                    <p>يتم تقديم الخدمة "كما هي" و"كما هي متاحة". لا تقدم VN PDF أي ضمانات بشأن: التوافر المستمر، التشغيل الخالي من الأخطاء، التوافق مع جميع الأنظمة.</p>
+                    <h4>4. تحديد المسؤولية</h4>
+                    <p>لا تتحمل VN PDF المسؤولية عن: فقدان البيانات الذي يحدث على أجهزة المستخدم، تلف الملفات، الأضرار غير المباشرة أو التبعية. يتحمل المستخدمون مسؤولية الاحتفاظ بنسخ احتياطية من مستنداتهم.</p>
+                    <h4>5. تعديلات الخدمة</h4>
+                    <p>نحتفظ بالحق في تعديل أو إيقاف أي جزء من الخدمة دون إشعار مسبق.</p>
+                    <h4>6. القانون الحاكم</h4>
+                    <p>تخضع هذه الشروط لقوانين الخدمات الرقمية الدولية المعمول بها.</p>
+                    <h4>7. القبول</h4>
+                    <p>باستخدام VN PDF، فإنك تقر بأنك قد قرأت هذه الشروط ووافقت عليها.</p>
+                `,
+                cookiesContent: `
+                    <h3>إشعار ملفات تعريف الارتباط (Cookies)</h3>
+                    <p>تستخدم VN PDF ملفات تعريف الارتباط الأساسية الضرورية لوظائف الموقع.</p>
+                    <p>قد نستخدم ملفات تعريف الارتباط من أجل: الحفاظ على أداء الموقع الأساسي، تخزين تفضيلات الواجهة، تحسين تجربة المستخدم.</p>
+                    <p>لا نستخدم: ملفات تعريف الارتباط الإعلانية، متتبعات التسويق عبر الأطراف الثالثة، تقنيات التنميط السلوكي.</p>
+                    <p>باستمرارك في استخدام VN PDF، فإنك توافق على استخدام ملفات تعريف الارتباط الأساسية.</p>
+                `,
+            },
+            en: {
+                appTitle: '📄 VN PDF',
+                appSubtitle: 'Professional PDF Tools - Fast & Secure',
+                servicesTitle: 'Services that may interest you',
+                servicesSubtitle: 'Browse ads and featured services',
+                donate: 'Donate to support the project',
+                back: 'Back',
+                developer: 'Developed by Eng. Hassan Falah',
+                address: 'Ghadeer Khum Library / Al-Kut / Al-Hawra District / Al-Malah Street',
+                reelsTitle: '📱 Featured Ads',
+                users: 'users',
+                mergeTitle: 'Merge PDF',
+                mergeDesc: 'Combine multiple files into one',
+                splitTitle: 'Split PDF',
+                splitDesc: 'Split into multiple ranges',
+                reverseTitle: 'Reverse PDF',
+                reverseDesc: 'Reverse page order',
+                imageToPdfTitle: 'Images to PDF',
+                imageToPdfDesc: 'Convert images to A4 PDF',
+                pdfToImageTitle: 'PDF to Images',
+                pdfToImageDesc: 'Extract pages as images',
+                reorderTitle: 'Reorder Pages',
+                reorderDesc: 'Drag and drop pages',
+                mindmapTitle: 'Mind Map',
+                mindmapDesc: 'Analyze text and create mind map',
+                mergeSuccess: '✅ Merge successful!',
+                mergeError: '❌ Error during merge',
+                splitSuccess: '✅ Split successful!',
+                splitError: '❌ Error during split',
+                reverseSuccess: '✅ Reverse successful!',
+                reverseError: '❌ Error during reverse',
+                imageToPdfSuccess: '✅ Conversion successful!',
+                imageToPdfError: '❌ Error during conversion',
+                pdfToImageSuccess: '✅ Images extracted successfully!',
+                pdfToImageError: '❌ Error during extraction',
+                reorderSuccess: '✅ New order saved!',
+                reorderError: '❌ Error during reorder',
+                mindmapSuccess: '✅ Mind map created!',
+                mindmapError: '❌ Error creating mind map',
+                processing: 'Processing...',
+                reading: 'Reading file...',
+                selectAtLeastTwo: 'Please select at least two files',
+                invalidRange: 'Please enter a valid page range',
+                contactTitle: 'Contact & Advertising',
+                contactDesc: 'For advertising or inquiries, contact us via:',
+                donationNumberLabel: 'Donation Number - Master Card',
+                about: 'About',
+                privacy: 'Privacy',
+                terms: 'Terms',
+                cookies: 'Cookies',
+                aboutContent: `
+                    <h3>About VN PDF</h3>
+                    <p>VN PDF is a privacy-focused, browser-based PDF toolkit designed to provide fast, secure, and efficient document processing directly on your device.</p>
+                    <p>Unlike traditional online PDF services that upload files to remote servers, VN PDF processes all files locally within your browser. Your documents never leave your device, ensuring maximum confidentiality and control.</p>
+                    <h4>Our Mission</h4>
+                    <p>Our mission is simple: To deliver powerful PDF tools without compromising user privacy. We believe digital convenience should not require sacrificing data security.</p>
+                    <h4>What We Offer</h4>
+                    <p>VN PDF provides: PDF merging, PDF splitting, PDF compression, PDF format conversion, Mobile and desktop compatibility, Instant browser-based processing. All operations are performed entirely within your device environment.</p>
+                    <h4>Why Choose VN PDF?</h4>
+                    <ul>
+                        <li>🔒 No file uploads</li>
+                        <li>⚡ Fast local processing</li>
+                        <li>🌍 Accessible worldwide</li>
+                        <li>📱 Optimized for smartphones</li>
+                        <li>🛡 Privacy-first architecture</li>
+                        <li>🚫 No account required</li>
+                    </ul>
+                    <p>Your documents remain yours — always.</p>
+                `,
+                privacyContent: `
+                    <h3>Privacy Policy</h3>
+                    <p><strong>Effective Date: [Insert Date]</strong></p>
+                    <p>VN PDF respects your privacy and is committed to protecting user data. This Privacy Policy explains how information is handled when you use our services.</p>
+                    <h4>1. Local File Processing</h4>
+                    <p>All PDF operations are performed locally in your browser. VN PDF: Does NOT upload your files to any server, Does NOT store your documents, Does NOT access your file contents. Your documents remain on your device at all times.</p>
+                    <h4>2. Personal Information</h4>
+                    <p>VN PDF does not require account registration. We do not collect: Names, Passwords, Uploaded document contents, Account credentials.</p>
+                    <h4>3. Technical & Usage Data</h4>
+                    <p>We may collect limited non-personal technical information such as: Browser type, Device type, Anonymous usage statistics. This data is used solely to improve service performance and reliability.</p>
+                    <h4>4. Third-Party Services</h4>
+                    <p>VN PDF may use third-party infrastructure providers such as Supabase for backend configuration and hosting support. These providers do NOT have access to user PDF files. No personal document content is transmitted to any external service.</p>
+                    <h4>5. Cookies</h4>
+                    <p>We use essential cookies necessary for: Website functionality, Interface preferences, Basic performance optimization. We do not use advertising or behavioral tracking cookies.</p>
+                    <h4>6. Children's Privacy</h4>
+                    <p>VN PDF is not directed to children under the age of 13. We do not knowingly collect personal data from minors.</p>
+                    <h4>7. Data Security</h4>
+                    <p>Because all document processing occurs locally and files are never transmitted, the risk of server-side document breaches is eliminated by design. Users remain responsible for securing their own devices.</p>
+                    <h4>8. International Users (GDPR & CCPA Compliance)</h4>
+                    <p>Depending on your jurisdiction, you may have rights regarding data access and deletion. Since VN PDF does not store personal accounts or documents, most privacy rights are inherently fulfilled by architecture.</p>
+                    <h4>9. Changes to This Policy</h4>
+                    <p>We may update this Privacy Policy periodically. Continued use of the service indicates acceptance of any changes.</p>
+                    <h4>10. Contact</h4>
+                    <p>For privacy inquiries: <a href="mailto:vnpdf@proton.me">vnpdf@proton.me</a></p>
+                `,
+                termsContent: `
+                    <h3>Terms of Service</h3>
+                    <p><strong>Effective Date: [Insert Date]</strong></p>
+                    <p>By accessing or using VN PDF, you agree to the following terms:</p>
+                    <h4>1. Service Description</h4>
+                    <p>VN PDF provides browser-based tools for processing PDF documents locally on user devices.</p>
+                    <h4>2. Acceptable Use</h4>
+                    <p>You agree not to use VN PDF for: Illegal activities, Processing unlawful or prohibited content, Attempting to exploit, disrupt, or reverse engineer the platform. You are solely responsible for the documents you process.</p>
+                    <h4>3. No Warranty</h4>
+                    <p>The service is provided "as is" and "as available." VN PDF makes no guarantees regarding: Continuous availability, Error-free operation, Compatibility with all systems.</p>
+                    <h4>4. Limitation of Liability</h4>
+                    <p>VN PDF shall not be liable for: Data loss occurring on user devices, Corruption of files, Indirect or consequential damages. Users are responsible for maintaining backups of their documents.</p>
+                    <h4>5. Service Modifications</h4>
+                    <p>We reserve the right to modify or discontinue any part of the service without prior notice.</p>
+                    <h4>6. Governing Law</h4>
+                    <p>These Terms shall be governed by applicable international digital service laws.</p>
+                    <h4>7. Acceptance</h4>
+                    <p>By using VN PDF, you acknowledge that you have read and agreed to these Terms.</p>
+                `,
+                cookiesContent: `
+                    <h3>Cookie Notice</h3>
+                    <p>VN PDF uses essential cookies required for website functionality.</p>
+                    <p>We may use cookies to: Maintain basic site performance, Store interface preferences, Improve user experience.</p>
+                    <p>We do not use: Advertising cookies, Third-party marketing trackers, Behavioral profiling technologies.</p>
+                    <p>By continuing to use VN PDF, you consent to the use of essential cookies.</p>
+                `,
+            }
+        };
+
+        // دالة مساعدة للترجمة
+        function t(key) {
+            return translations[AppState.lang]?.[key] || key;
+        }
+
+        // تطبيق الترجمة للنصوص التي تحتوي على HTML (للمودالات)
+        function applyHtmlTranslations() {
+            document.querySelectorAll('[data-i18n-html]').forEach(el => {
+                const key = el.getAttribute('data-i18n-html');
+                if (translations[AppState.lang][key]) {
+                    el.innerHTML = translations[AppState.lang][key];
+                }
+            });
+        }
+
+        // -------------------- حالة التطبيق --------------------
+        const AppState = {
+            darkMode: localStorage.getItem('theme') === 'dark',
+            lang: localStorage.getItem('lang') || 'ar',
+            ads: [],
+            currentTool: null,
+            mergeFiles: [],
+            splitFile: null,
+            splitRanges: [{ start: 1, end: 1 }],
+            splitTotalPages: 0,
+            reverseFile: null,
+            imageFiles: [],
+            reorderFile: null,
+            pageOrder: [],
+            pdfToImageFile: null,
+            pdfToImageTotalPages: 0,
+            mindmapFile: null,
+            baseUserCount: 1247
+        };
+
+        // -------------------- دوال تحديث meta و SEO --------------------
+        function updateMetaTags() {
+            document.title = AppState.lang === 'ar' ? 'VN PDF - أدوات PDF الاحترافية' : 'VN PDF - Professional PDF Tools';
+            
+            let metaDesc = document.querySelector('meta[name="description"]');
+            if (!metaDesc) {
+                metaDesc = document.createElement('meta');
+                metaDesc.name = 'description';
+                document.head.appendChild(metaDesc);
+            }
+            metaDesc.content = AppState.lang === 'ar' 
+                ? 'أدوات PDF مجانية متكاملة: دمج، تقسيم، عكس، تحويل الصور، خرائط ذهنية وأكثر. سريعة وآمنة بدون رفع ملفات.'
+                : 'Free all-in-one PDF tools: merge, split, reverse, convert images, mind maps and more. Fast and secure, no file upload.';
+            
+            let metaKeywords = document.querySelector('meta[name="keywords"]');
+            if (!metaKeywords) {
+                metaKeywords = document.createElement('meta');
+                metaKeywords.name = 'keywords';
+                document.head.appendChild(metaKeywords);
+            }
+            metaKeywords.content = AppState.lang === 'ar'
+                ? 'أدوات PDF, دمج PDF, تقسيم PDF, تحويل PDF إلى صور, خريطة ذهنية, PDF Editor, PDF merger, split PDF, مجاني, عربي'
+                : 'PDF tools, merge PDF, split PDF, PDF to images, mind map, PDF Editor, PDF merger, free, online';
+            
+            let ogTitle = document.querySelector('meta[property="og:title"]');
+            if (ogTitle) ogTitle.content = document.title;
+            
+            let ogDesc = document.querySelector('meta[property="og:description"]');
+            if (ogDesc) ogDesc.content = metaDesc.content;
+            
+            let twitterTitle = document.querySelector('meta[name="twitter:title"]');
+            if (twitterTitle) twitterTitle.content = document.title;
+            
+            let twitterDesc = document.querySelector('meta[name="twitter:description"]');
+            if (twitterDesc) twitterDesc.content = metaDesc.content;
+            
+            let hreflangAr = document.querySelector('link[hreflang="ar"]');
+            let hreflangEn = document.querySelector('link[hreflang="en"]');
+            if (hreflangAr) hreflangAr.href = window.location.origin + '/ar';
+            if (hreflangEn) hreflangEn.href = window.location.origin + '/en';
+            
+            let scriptTag = document.getElementById('structured-data');
+            if (scriptTag) {
+                try {
+                    let data = JSON.parse(scriptTag.textContent);
+                    data.description = metaDesc.content;
+                    data.name = AppState.lang === 'ar' ? 'VN PDF' : 'VN PDF';
+                    scriptTag.textContent = JSON.stringify(data, null, 2);
+                } catch (e) { console.warn('JSON-LD update failed', e); }
+            }
+        }
+
+        // -------------------- دوال الترجمة والثيم --------------------
+        window.toggleLanguage = function() {
+            AppState.lang = AppState.lang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('lang', AppState.lang);
+            document.documentElement.dir = AppState.lang === 'ar' ? 'rtl' : 'ltr';
+            document.querySelector('.lang-toggle').textContent = AppState.lang === 'ar' ? 'EN' : 'AR';
+            applyTranslations();
+            applyHtmlTranslations();
+            updateMetaTags();
+        };
+
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[AppState.lang][key]) {
+                    el.innerHTML = translations[AppState.lang][key];
+                }
+            });
+        }
+
+        window.toggleTheme = function() {
+            AppState.darkMode = !AppState.darkMode;
+            document.body.classList.toggle('dark', AppState.darkMode);
+            document.querySelector('.theme-toggle').textContent = AppState.darkMode ? '☀️' : '🌙';
+            localStorage.setItem('theme', AppState.darkMode ? 'dark' : 'light');
+        };
+
+        // -------------------- الإعلانات --------------------
+        async function fetchAds() {
+            const { data, error } = await supabaseClient.from('ads').select('*').order('created_at', { ascending: false });
+            if (!error) AppState.ads = data || [];
+            renderBanner();
+            renderReels();
+        }
+
+        function renderBanner() {
+            const banner = AppState.ads.find(a => a.is_banner);
+            const el = document.getElementById('bannerAd');
+            const img = document.getElementById('bannerImage');
+            if (banner?.image_url) {
+                img.src = banner.image_url;
+                el.style.display = 'flex';
+                el.onclick = () => window.open(banner.link_url || '#', '_blank');
+            } else el.style.display = 'none';
+        }
+
+        function renderReels() {
+            const container = document.getElementById('reelsContainer');
+            if (!container) return;
+            if (!AppState.ads.length) {
+                container.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px;">' + t('noAds') + '</p>';
+                return;
+            }
+            container.innerHTML = AppState.ads.map(ad => `
+                <div class="reels-item" onclick="window.open('${ad.link_url || '#'}', '_blank')">
+                    ${ad.image_url ? `<img src="${ad.image_url}" alt="${ad.title}">` : '<div style="width:100%;height:200px;background:var(--primary);display:flex;align-items:center;justify-content:center;color:white;font-size:48px;">📢</div>'}
+                    <div class="reels-title">${ad.title}</div>
+                    ${ad.description ? `<div class="reels-desc">${ad.description}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        window.openReelsModal = function() {
+            renderReels();
+            openModal('reelsModal');
+        };
+
+        // -------------------- دوال مساعدة عامة --------------------
+        window.openModal = function(id) { document.getElementById(id).classList.add('active'); };
+        window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); };
+        window.closeBanner = function(e) { e.stopPropagation(); document.getElementById('bannerAd').style.display = 'none'; };
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function downloadPdf(bytes, filename) {
+            const blob = new Blob([bytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 100);
+        }
+
+        function setupDragDrop(zoneId, handler) {
+            const zone = document.getElementById(zoneId);
+            if (!zone) return;
+            zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+            zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+            zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('dragover'); handler(e.dataTransfer.files); });
+        }
+
+        // -------------------- أدوات PDF --------------------
+        window.openTool = function(tool) {
+            AppState.currentTool = tool;
+            document.getElementById('mainView').style.display = 'none';
+            document.getElementById('toolView').style.display = 'block';
+            
+            const titles = {
+                merge: t('mergeTitle'),
+                split: t('splitTitle'),
+                reverse: t('reverseTitle'),
+                imageToPdf: t('imageToPdfTitle'),
+                pdfToImage: t('pdfToImageTitle'),
+                reorder: t('reorderTitle'),
+                mindmap: t('mindmapTitle')
+            };
+            
+            document.getElementById('toolTitle').textContent = titles[tool] || tool;
+            renderTool(tool);
+        };
+
+        window.closeTool = function() {
+            document.getElementById('mainView').style.display = 'block';
+            document.getElementById('toolView').style.display = 'none';
+            resetToolState();
+        };
+
+        function resetToolState() {
+            AppState.mergeFiles = [];
+            AppState.splitFile = null;
+            AppState.splitRanges = [{ start: 1, end: 1 }];
+            AppState.reverseFile = null;
+            AppState.imageFiles = [];
+            AppState.reorderFile = null;
+            AppState.pageOrder = [];
+            AppState.pdfToImageFile = null;
+            AppState.mindmapFile = null;
+        }
+
+        function renderTool(tool) {
+            const content = document.getElementById('toolContent');
+            switch(tool) {
+                case 'merge': renderMergeTool(content); break;
+                case 'split': renderSplitTool(content); break;
+                case 'reverse': renderReverseTool(content); break;
+                case 'imageToPdf': renderImageToPdfTool(content); break;
+                case 'pdfToImage': renderPdfToImageTool(content); break;
+                case 'reorder': renderReorderTool(content); break;
+                case 'mindmap': renderMindmapTool(content); break;
+            }
+        }
+
+        // -------------------- دمج --------------------
+        function renderMergeTool(content) {
+            content.innerHTML = `
+                <div class="upload-zone" onclick="document.getElementById('mergeInput').click()" id="mergeZone">
+                    <div style="font-size:48px;margin-bottom:15px">📤</div>
+                    <p style="font-size:18px;font-weight:600">${t('mergeDrop') || 'اسحب ملفات PDF هنا أو انقر للاختيار'}</p>
+                    <input type="file" id="mergeInput" accept=".pdf" multiple hidden onchange="window.handleMergeFiles(this.files)">
+                </div>
+                <div class="file-list" id="mergeList"></div>
+                <button class="btn btn-action btn-full" id="mergeBtn" style="display:none;margin-top:20px" onclick="window.processMerge()">🔄 ${t('mergeTitle')}</button>
+            `;
+            setupDragDrop('mergeZone', window.handleMergeFiles);
+        }
+
+        window.handleMergeFiles = function(files) {
+            if (!files || files.length === 0) return;
+            const newFiles = Array.from(files).filter(f => f.type === 'application/pdf');
+            AppState.mergeFiles = [...AppState.mergeFiles, ...newFiles];
+            updateMergeList();
+        };
+
+        function updateMergeList() {
+            const listEl = document.getElementById('mergeList');
+            const btnEl = document.getElementById('mergeBtn');
+            if (AppState.mergeFiles.length > 0) {
+                listEl.innerHTML = AppState.mergeFiles.map((f, i) => `
+                    <div class="file-item">
+                        <span>📄</span>
+                        <span>${f.name}</span>
+                        <button onclick="window.removeMergeFile(${i})">×</button>
+                    </div>
+                `).join('');
+                btnEl.style.display = 'flex';
+            } else {
+                listEl.innerHTML = '';
+                btnEl.style.display = 'none';
+            }
+        }
+
+        window.removeMergeFile = function(index) {
+            AppState.mergeFiles.splice(index, 1);
+            updateMergeList();
+        };
+
+        window.processMerge = async function() {
+            if (AppState.mergeFiles.length < 2) {
+                showToast(t('selectAtLeastTwo'));
+                return;
+            }
+            showToast(t('processing'));
+            try {
+                const { PDFDocument } = PDFLib;
+                const mergedPdf = await PDFDocument.create();
+                
+                for (const file of AppState.mergeFiles) {
+                    const bytes = await file.arrayBuffer();
+                    const pdf = await PDFDocument.load(bytes);
+                    const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                    pages.forEach(page => mergedPdf.addPage(page));
+                }
+                
+                const pdfBytes = await mergedPdf.save();
+                downloadPdf(pdfBytes, 'merged.pdf');
+                showToast(t('mergeSuccess'));
+                AppState.mergeFiles = [];
+                updateMergeList();
+            } catch (error) {
+                console.error(error);
+                showToast(t('mergeError'));
+            }
+        };
+
+        // -------------------- تقسيم --------------------
+        function renderSplitTool(content) {
+            if (AppState.splitFile) {
+                renderSplitContent(content);
+            } else {
+                content.innerHTML = `
+                    <div class="upload-zone" onclick="document.getElementById('splitInput').click()" id="splitZone">
+                        <div style="font-size:48px;margin-bottom:15px">✂️</div>
+                        <p style="font-size:18px;font-weight:600">${t('splitSelect') || 'اختر ملف PDF للتقسيم'}</p>
+                        <input type="file" id="splitInput" accept=".pdf" hidden onchange="window.handleSplitFile(this.files[0])">
+                    </div>
+                    <div id="splitContent"></div>
+                `;
+            }
+        }
+
+        window.handleSplitFile = async function(file) {
+            if (!file) return;
+            AppState.splitFile = file;
+            showToast(t('reading'));
+            try {
+                const { PDFDocument } = PDFLib;
+                const bytes = await file.arrayBuffer();
+                const pdf = await PDFDocument.load(bytes);
+                AppState.splitTotalPages = pdf.getPageCount();
+                AppState.splitRanges = [{ start: 1, end: AppState.splitTotalPages }];
+                renderSplitTool(document.getElementById('toolContent'));
+            } catch (error) {
+                showToast(t('splitError'));
+            }
+        };
+
+        function renderSplitContent(content) {
+            content.innerHTML = `
+                <div class="file-item" style="margin-bottom:20px">
+                    <span>📄</span>
+                    <span>${AppState.splitFile.name} (${AppState.splitTotalPages} صفحة)</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
+                    <strong>${t('splitRanges') || 'نطاقات التقسيم'}</strong>
+                    <button class="btn btn-outline" style="padding:8px 16px;font-size:13px" onclick="window.addSplitRange()">➕ ${t('addRange') || 'إضافة نطاق'}</button>
+                </div>
+                <div id="rangesList"></div>
+                <div style="display:flex;gap:10px;margin-top:20px">
+                    <button class="btn btn-action" style="flex:1" onclick="window.processSplit()">✂️ ${t('splitTitle')}</button>
+                    <button class="btn btn-outline" onclick="window.openTool('split')">${t('back')}</button>
+                </div>
+            `;
+            updateRangesList();
+        }
+
+        window.addSplitRange = function() {
+            AppState.splitRanges.push({ start: 1, end: AppState.splitTotalPages });
+            updateRangesList();
+        };
+
+        function updateRangesList() {
+            const listEl = document.getElementById('rangesList');
+            if (!listEl) return;
+            listEl.innerHTML = AppState.splitRanges.map((r, i) => `
+                <div class="range-item">
+                    <span style="color:var(--muted)">${i + 1}</span>
+                    <div>
+                        <label style="font-size:12px;color:var(--muted)">${t('from') || 'من'}</label>
+                        <input type="number" min="1" max="${AppState.splitTotalPages}" value="${r.start}" onchange="window.updateSplitRange(${i}, 'start', parseInt(this.value) || 1)">
+                    </div>
+                    <div>
+                        <label style="font-size:12px;color:var(--muted)">${t('to') || 'إلى'}</label>
+                        <input type="number" min="1" max="${AppState.splitTotalPages}" value="${r.end}" onchange="window.updateSplitRange(${i}, 'end', parseInt(this.value) || 1)">
+                    </div>
+                    ${AppState.splitRanges.length > 1 ? `
+                        <button onclick="window.removeSplitRange(${i})" style="background:none;border:none;color:#EF4444;font-size:18px;cursor:pointer">×</button>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        window.updateSplitRange = function(index, field, value) {
+            if (value < 1) value = 1;
+            if (value > AppState.splitTotalPages) value = AppState.splitTotalPages;
+            AppState.splitRanges[index][field] = value;
+            if (AppState.splitRanges[index].start > AppState.splitRanges[index].end) {
+                if (field === 'start') {
+                    AppState.splitRanges[index].end = AppState.splitRanges[index].start;
+                } else {
+                    AppState.splitRanges[index].start = AppState.splitRanges[index].end;
+                }
+            }
+            updateRangesList();
+        };
+
+        window.removeSplitRange = function(index) {
+            AppState.splitRanges.splice(index, 1);
+            updateRangesList();
+        };
+
+        window.processSplit = async function() {
+            showToast(t('processing'));
+            try {
+                const { PDFDocument } = PDFLib;
+                const bytes = await AppState.splitFile.arrayBuffer();
+                const pdf = await PDFDocument.load(bytes);
+                
+                for (let i = 0; i < AppState.splitRanges.length; i++) {
+                    const { start, end } = AppState.splitRanges[i];
+                    const newPdf = await PDFDocument.create();
+                    const indices = [];
+                    for (let p = start - 1; p < end && p < AppState.splitTotalPages; p++) {
+                        indices.push(p);
+                    }
+                    const pages = await newPdf.copyPages(pdf, indices);
+                    pages.forEach(p => newPdf.addPage(p));
+                    const pdfBytes = await newPdf.save();
+                    downloadPdf(pdfBytes, `split_${i + 1}.pdf`);
+                }
+                
+                showToast(t('splitSuccess'));
+                AppState.splitFile = null;
+                window.openTool('split');
+            } catch (error) {
+                console.error(error);
+                showToast(t('splitError'));
+            }
+        };
+
+        // -------------------- عكس --------------------
+        function renderReverseTool(content) {
+            if (AppState.reverseFile) {
+                content.innerHTML = `
+                    <div class="file-item" style="margin-bottom:20px">
+                        <span>📄</span>
+                        <span>${AppState.reverseFile.name}</span>
+                    </div>
+                    <div style="display:flex;gap:10px">
+                        <button class="btn btn-action" style="flex:1" onclick="window.processReverse()">↕️ ${t('reverseTitle')}</button>
+                        <button class="btn btn-outline" onclick="window.openTool('reverse')">${t('back')}</button>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="upload-zone" onclick="document.getElementById('reverseInput').click()" id="reverseZone">
+                        <div style="font-size:48px;margin-bottom:15px">↕️</div>
+                        <p style="font-size:18px;font-weight:600">${t('reverseSelect') || 'اختر ملف PDF لعكسه'}</p>
+                        <input type="file" id="reverseInput" accept=".pdf" hidden onchange="window.handleReverseFile(this.files[0])">
+                    </div>
+                `;
+            }
+        }
+
+        window.handleReverseFile = function(file) {
+            if (!file) return;
+            AppState.reverseFile = file;
+            renderReverseTool(document.getElementById('toolContent'));
+        };
+
+        window.processReverse = async function() {
+            showToast(t('processing'));
+            try {
+                const { PDFDocument } = PDFLib;
+                const bytes = await AppState.reverseFile.arrayBuffer();
+                const pdf = await PDFDocument.load(bytes);
+                const total = pdf.getPageCount();
+                const newPdf = await PDFDocument.create();
+                const reversedIndices = Array.from({ length: total }, (_, i) => total - 1 - i);
+                const pages = await newPdf.copyPages(pdf, reversedIndices);
+                pages.forEach(p => newPdf.addPage(p));
+                const pdfBytes = await newPdf.save();
+                downloadPdf(pdfBytes, 'reversed.pdf');
+                showToast(t('reverseSuccess'));
+                AppState.reverseFile = null;
+                window.openTool('reverse');
+            } catch (error) {
+                console.error(error);
+                showToast(t('reverseError'));
+            }
+        };
+
+        // -------------------- صور إلى PDF --------------------
+        function renderImageToPdfTool(content) {
+            content.innerHTML = `
+                <div class="upload-zone" onclick="document.getElementById('imageInput').click()" id="imageZone">
+                    <div style="font-size:48px;margin-bottom:15px">🖼️</div>
+                    <p style="font-size:18px;font-weight:600">${t('imageDrop') || 'اسحب الصور هنا أو انقر للاختيار'}</p>
+                    <input type="file" id="imageInput" accept="image/*" multiple hidden onchange="window.handleImageFiles(this.files)">
+                </div>
+                <div class="image-preview" id="imagePreview"></div>
+                <button class="btn btn-action btn-full" id="imageBtn" style="display:none;margin-top:20px" onclick="window.processImageToPdf()">📄 ${t('imageToPdfTitle')}</button>
+            `;
+            setupDragDrop('imageZone', window.handleImageFiles);
+            updateImagePreview();
+        }
+
+        window.handleImageFiles = function(files) {
+            if (!files || files.length === 0) return;
+            const newFiles = Array.from(files).filter(f => f.type.startsWith('image/'));
+            AppState.imageFiles = [...AppState.imageFiles, ...newFiles];
+            updateImagePreview();
+        };
+
+        function updateImagePreview() {
+            const preview = document.getElementById('imagePreview');
+            const btn = document.getElementById('imageBtn');
+            if (!preview) return;
+            
+            if (AppState.imageFiles.length > 0) {
+                preview.innerHTML = AppState.imageFiles.map((f, i) => `
+                    <div style="position:relative">
+                        <img src="${URL.createObjectURL(f)}" alt="معاينة">
+                        <button onclick="window.removeImageFile(${i})" style="position:absolute;top:5px;right:5px;background:#EF4444;color:white;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;">×</button>
+                    </div>
+                `).join('');
+                btn.style.display = 'flex';
+            } else {
+                preview.innerHTML = '';
+                btn.style.display = 'none';
+            }
+        }
+
+        window.removeImageFile = function(index) {
+            AppState.imageFiles.splice(index, 1);
+            updateImagePreview();
+        };
+
+        window.processImageToPdf = async function() {
+            if (AppState.imageFiles.length === 0) return;
+            showToast(t('processing'));
+            try {
+                const { PDFDocument } = PDFLib;
+                const pdfDoc = await PDFDocument.create();
+                const A4_WIDTH = 595.28;
+                const A4_HEIGHT = 841.89;
+                
+                for (const file of AppState.imageFiles) {
+                    const bytes = await file.arrayBuffer();
+                    let image;
+                    if (file.type === 'image/png') {
+                        image = await pdfDoc.embedPng(bytes);
+                    } else {
+                        image = await pdfDoc.embedJpg(bytes);
+                    }
+                    
+                    const page = pdfDoc.addPage([A4_WIDTH, A4_HEIGHT]);
+                    const imgRatio = image.width / image.height;
+                    const pageRatio = A4_WIDTH / A4_HEIGHT;
+                    let w, h, x, y;
+                    
+                    if (imgRatio > pageRatio) {
+                        w = A4_WIDTH;
+                        h = A4_WIDTH / imgRatio;
+                        x = 0;
+                        y = (A4_HEIGHT - h) / 2;
+                    } else {
+                        h = A4_HEIGHT;
+                        w = A4_HEIGHT * imgRatio;
+                        x = (A4_WIDTH - w) / 2;
+                        y = 0;
+                    }
+                    
+                    page.drawImage(image, { x, y, width: w, height: h });
+                }
+                
+                const pdfBytes = await pdfDoc.save();
+                downloadPdf(pdfBytes, 'images.pdf');
+                showToast(t('imageToPdfSuccess'));
+                AppState.imageFiles = [];
+                updateImagePreview();
+            } catch (error) {
+                console.error(error);
+                showToast(t('imageToPdfError'));
+            }
+        };
+
+        // -------------------- PDF إلى صور (مع معالجة مجزأة) --------------------
+        function renderPdfToImageTool(content) {
+            if (AppState.pdfToImageFile) {
+                content.innerHTML = `
+                    <div class="file-item" style="margin-bottom:20px">
+                        <span>📄</span>
+                        <span>${AppState.pdfToImageFile.name} (${AppState.pdfToImageTotalPages} صفحة)</span>
+                    </div>
+                    <div style="background:var(--secondary); padding:20px; border-radius:12px; margin-bottom:20px;">
+                        <h4 style="margin-bottom:10px">${t('selectPages') || 'اختر الصفحات:'}</h4>
+                        <label style="display:block; margin-bottom:10px; cursor:pointer;">
+                            <input type="radio" name="p2i_range" value="all" checked onchange="window.toggleP2iInput(false)"> ${t('allPages') || 'كل الصفحات'}
+                        </label>
+                        <label style="display:block; cursor:pointer;">
+                            <input type="radio" name="p2i_range" value="custom" onchange="window.toggleP2iInput(true)"> ${t('customPages') || 'صفحات محددة'}
+                        </label>
+                        <input type="text" id="p2iCustomRange" placeholder="${t('exampleRange') || 'مثال: 1, 3, 5-10'}" style="width:100%; padding:10px; margin-top:10px; border:1px solid var(--border); border-radius:8px; display:none;" dir="ltr">
+                    </div>
+                    <div id="p2iProgress" style="display:none;">
+                        <div class="progress-bar"><div class="progress-fill" id="p2iProgressFill"></div></div>
+                        <p style="text-align:center; color:var(--primary); font-weight:bold; margin-top:5px;" id="p2iProgressText">${t('processing')} 0%</p>
+                    </div>
+                    <div style="display:flex;gap:10px">
+                        <button class="btn btn-action" style="flex:1" onclick="window.processPdfToImages()">📸 ${t('pdfToImageTitle')}</button>
+                        <button class="btn btn-outline" onclick="window.openTool('pdfToImage')">${t('back')}</button>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="upload-zone" onclick="document.getElementById('p2iInput').click()" id="p2iZone">
+                        <div style="font-size:48px;margin-bottom:15px">📸</div>
+                        <p style="font-size:18px;font-weight:600">${t('pdfToImageSelect') || 'اختر ملف PDF لتحويله إلى صور'}</p>
+                        <input type="file" id="p2iInput" accept=".pdf" hidden onchange="window.handlePdfToImageFile(this.files[0])">
+                    </div>
+                `;
+            }
+        }
+
+        window.handlePdfToImageFile = async function(file) {
+            if (!file) return;
+            AppState.pdfToImageFile = file;
+            showToast(t('reading'));
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                AppState.pdfToImageTotalPages = pdf.numPages;
+                renderPdfToImageTool(document.getElementById('toolContent'));
+            } catch (error) {
+                console.error(error);
+                showToast(t('pdfToImageError'));
+            }
+        };
+
+        window.toggleP2iInput = function(show) {
+            const input = document.getElementById('p2iCustomRange');
+            if (input) input.style.display = show ? 'block' : 'none';
+        };
+
+        // معالجة مجزأة (batch) لتحويل PDF إلى صور
+        window.processPdfToImages = async function() {
+            const rangeType = document.querySelector('input[name="p2i_range"]:checked').value;
+            let pagesToConvert = [];
+            
+            if (rangeType === 'all') {
+                for (let i = 1; i <= AppState.pdfToImageTotalPages; i++) pagesToConvert.push(i);
+            } else {
+                const input = document.getElementById('p2iCustomRange').value;
+                const parts = input.split(',');
+                for (let part of parts) {
+                    if (part.includes('-')) {
+                        let [start, end] = part.split('-').map(n => parseInt(n.trim()));
+                        if (start && end && start <= end && end <= AppState.pdfToImageTotalPages) {
+                            for (let i = start; i <= end; i++) pagesToConvert.push(i);
+                        }
+                    } else {
+                        let num = parseInt(part.trim());
+                        if (num && num >= 1 && num <= AppState.pdfToImageTotalPages) pagesToConvert.push(num);
+                    }
+                }
+                pagesToConvert = [...new Set(pagesToConvert)].sort((a, b) => a - b);
+            }
+
+            if (pagesToConvert.length === 0) {
+                showToast(t('invalidRange'));
+                return;
+            }
+
+            const progressContainer = document.getElementById('p2iProgress');
+            const progressFill = document.getElementById('p2iProgressFill');
+            const progressText = document.getElementById('p2iProgressText');
+            progressContainer.style.display = 'block';
+
+            try {
+                const arrayBuffer = await AppState.pdfToImageFile.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                
+                const zip = new JSZip();
+                const zipFolder = zip.folder("PDF_Images");
+                
+                // معالجة على دفعات (batch) بحجم 3 صفحات لتجنب تجميد المتصفح
+                const BATCH_SIZE = 3;
+                let processed = 0;
+
+                for (let batchStart = 0; batchStart < pagesToConvert.length; batchStart += BATCH_SIZE) {
+                    const batchEnd = Math.min(batchStart + BATCH_SIZE, pagesToConvert.length);
+                    const batchPages = pagesToConvert.slice(batchStart, batchEnd);
+                    
+                    // معالجة الدفعة الحالية
+                    for (const pageNum of batchPages) {
+                        const page = await pdf.getPage(pageNum);
+                        const viewport = page.getViewport({ scale: 2.0 });
+                        
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+
+                        await page.render({ canvasContext: context, viewport: viewport }).promise;
+                        
+                        const imgData = canvas.toDataURL('image/jpeg', 0.8).split('base64,')[1];
+                        
+                        if (pagesToConvert.length === 1) {
+                            const a = document.createElement('a');
+                            a.href = canvas.toDataURL('image/jpeg', 0.8);
+                            a.download = `page_${pageNum}.jpg`;
+                            a.click();
+                            progressContainer.style.display = 'none';
+                            showToast(t('pdfToImageSuccess'));
+                            return;
+                        } else {
+                            zipFolder.file(`page_${pageNum}.jpg`, imgData, { base64: true });
+                        }
+                        
+                        processed++;
+                        const percent = Math.round((processed / pagesToConvert.length) * 100);
+                        progressFill.style.width = percent + '%';
+                        progressText.innerText = `${t('processing')} ${percent}%`;
+                        
+                        // تأخير صغير للسماح بتحديث واجهة المستخدم
+                        await new Promise(resolve => setTimeout(resolve, 10));
+                    }
+                    
+                    // تأخير بين الدفعات
+                    if (batchEnd < pagesToConvert.length) {
+                        await new Promise(resolve => setTimeout(resolve, 50));
+                    }
+                }
+
+                progressFill.style.width = '100%';
+                progressText.innerText = t('zipping') || 'جاري ضغط الملفات...';
+                
+                const content = await zip.generateAsync({ type: "blob" });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(content);
+                a.download = "VN_PDF_Images.zip"; // تم التعديل هنا
+                a.click();
+                URL.revokeObjectURL(a.href);
+                
+                progressContainer.style.display = 'none';
+                showToast(t('pdfToImageSuccess'));
+                AppState.pdfToImageFile = null;
+                window.openTool('pdfToImage');
+            } catch (error) {
+                console.error(error);
+                progressContainer.style.display = 'none';
+                showToast(t('pdfToImageError'));
+            }
+        };
+
+        // -------------------- إعادة ترتيب --------------------
+        function renderReorderTool(content) {
+            if (AppState.reorderFile) {
+                content.innerHTML = `
+                    <div class="file-item" style="margin-bottom:20px">
+                        <span>📄</span>
+                        <span>${AppState.reorderFile.name}</span>
+                    </div>
+                    <div id="pagesList" style="max-height:350px;overflow-y:auto"></div>
+                    <div style="display:flex;gap:10px;margin-top:20px">
+                        <button class="btn btn-action" style="flex:1" onclick="window.processReorder()">💾 ${t('save') || 'حفظ'}</button>
+                        <button class="btn btn-outline" onclick="window.openTool('reorder')">${t('back')}</button>
+                    </div>
+                `;
+                renderPagesList();
+            } else {
+                content.innerHTML = `
+                    <div class="upload-zone" onclick="document.getElementById('reorderInput').click()" id="reorderZone">
+                        <div style="font-size:48px;margin-bottom:15px">📑</div>
+                        <p style="font-size:18px;font-weight:600">${t('reorderSelect') || 'اختر ملف لإعادة الترتيب'}</p>
+                        <input type="file" id="reorderInput" accept=".pdf" hidden onchange="window.handleReorderFile(this.files[0])">
+                    </div>
+                `;
+            }
+        }
+
+        window.handleReorderFile = async function(file) {
+            if (!file) return;
+            AppState.reorderFile = file;
+            showToast(t('reading'));
+            try {
+                const { PDFDocument } = PDFLib;
+                const bytes = await file.arrayBuffer();
+                const pdf = await PDFDocument.load(bytes);
+                AppState.pageOrder = Array.from({ length: pdf.getPageCount() }, (_, i) => ({ id: i, pageNumber: i + 1 }));
+                renderReorderTool(document.getElementById('toolContent'));
+            } catch (error) {
+                console.error(error);
+                showToast(t('reorderError'));
+            }
+        };
+
+        function renderPagesList() {
+            const listEl = document.getElementById('pagesList');
+            if (!listEl) return;
+            listEl.innerHTML = AppState.pageOrder.map((p, i) => `
+                <div class="page-item" draggable="true" ondragstart="window.dragStart(event, ${i})" ondragover="event.preventDefault()" ondrop="window.drop(event, ${i})" ondragend="window.dragEnd(event)">
+                    <span style="cursor:grab">⋮⋮</span>
+                    <div style="width:40px;height:40px;background:rgba(24,119,242,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center">📄</div>
+                    <span style="flex:1">${t('page') || 'صفحة'} ${p.pageNumber}</span>
+                    <button onclick="window.removeReorderPage(${i})" style="background:none;border:none;color:#EF4444;cursor:pointer">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        window.removeReorderPage = function(index) {
+            AppState.pageOrder.splice(index, 1);
+            renderPagesList();
+        };
+
+        let draggedIndex = null;
+        window.dragStart = function(e, index) {
+            draggedIndex = index;
+            e.target.classList.add('dragging');
+        };
+        window.drop = function(e, index) {
+            e.preventDefault();
+            if (draggedIndex !== null && draggedIndex !== index) {
+                const item = AppState.pageOrder.splice(draggedIndex, 1)[0];
+                AppState.pageOrder.splice(index, 0, item);
+                renderPagesList();
+            }
+        };
+        window.dragEnd = function(e) {
+            e.target.classList.remove('dragging');
+            draggedIndex = null;
+        };
+
+        window.processReorder = async function() {
+            showToast(t('processing'));
+            try {
+                const { PDFDocument } = PDFLib;
+                const bytes = await AppState.reorderFile.arrayBuffer();
+                const pdf = await PDFDocument.load(bytes);
+                const newPdf = await PDFDocument.create();
+                const indices = AppState.pageOrder.map(p => p.pageNumber - 1);
+                const pages = await newPdf.copyPages(pdf, indices);
+                pages.forEach(p => newPdf.addPage(p));
+                const pdfBytes = await newPdf.save();
+                downloadPdf(pdfBytes, 'reordered.pdf');
+                showToast(t('reorderSuccess'));
+                AppState.reorderFile = null;
+                window.openTool('reorder');
+            } catch (error) {
+                console.error(error);
+                showToast(t('reorderError'));
+            }
+        };
+
+        // -------------------- خريطة ذهنية --------------------
+        function renderMindmapTool(content) {
+            if (AppState.mindmapFile) {
+                // يتم التعامل معه في handleMindmapFile
+            } else {
+                content.innerHTML = `
+                    <div class="upload-zone" onclick="document.getElementById('mindmapInput').click()" id="mindmapZone">
+                        <div style="font-size:48px;margin-bottom:15px">🧠</div>
+                        <p style="font-size:18px;font-weight:600">${t('mindmapSelect') || 'اختر ملف PDF لتحليل النصوص وبناء الخريطة'}</p>
+                        <input type="file" id="mindmapInput" accept=".pdf" hidden onchange="window.handleMindmapFile(this.files[0])">
+                    </div>
+                    <div id="mindmapContent"></div>
+                `;
+            }
+        }
+
+        window.handleMindmapFile = async function(file) {
+            if (!file) return;
+            AppState.mindmapFile = file;
+            const content = document.getElementById('mindmapContent');
+            content.innerHTML = `
+                <div class="file-item" style="margin-bottom:20px">
+                    <span>📄</span>
+                    <span>${file.name}</span>
+                </div>
+                <div id="mindmapLoader" class="loader-spinner"></div>
+                <p id="mindmapStatus" style="text-align:center; color:var(--muted); font-size:14px;">${t('mindmapAnalyzing') || 'جاري تحليل النصوص واستخراج الهيكل (قد يستغرق بضع ثوانٍ)...'}</p>
+                <div class="mindmap-container" id="mindmapContainer" style="display:none;">
+                    <svg id="markmap"></svg>
+                </div>
+                <button class="btn btn-outline btn-full" style="margin-top:20px;" onclick="window.openTool('mindmap')">${t('mindmapNew') || 'تحليل ملف آخر'}</button>
+            `;
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                const totalPages = Math.min(pdf.numPages, 15); // حد أقصى 15 صفحة
+                
+                let markdown = `# ${file.name.replace('.pdf', '')}\n\n`;
+
+                for (let i = 1; i <= totalPages; i++) {
+                    document.getElementById('mindmapStatus').innerText = (t('analyzingPage') || 'تحليل صفحة') + ` ${i} ${t('of') || 'من'} ${totalPages}...`;
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    
+                    if (textContent.items.length > 0) {
+                        markdown += `## ${t('page') || 'صفحة'} ${i}\n`;
+                        let lines = [];
+                        let currentLineItems = [];
+                        let currentLineY = null;
+
+                        textContent.items.forEach(item => {
+                            const y = Math.round(item.transform[5]);
+                            if (currentLineY === null || Math.abs(y - currentLineY) < 5) {
+                                currentLineItems.push(item);
+                                currentLineY = y;
+                            } else {
+                                if (currentLineItems.length) {
+                                    const lineText = currentLineItems.map(i => i.str).join(' ').trim();
+                                    if (lineText.length > 10) {
+                                        lines.push(lineText);
+                                    }
+                                }
+                                currentLineItems = [item];
+                                currentLineY = y;
+                            }
+                        });
+                        if (currentLineItems.length) {
+                            const lineText = currentLineItems.map(i => i.str).join(' ').trim();
+                            if (lineText.length > 10) {
+                                lines.push(lineText);
+                            }
+                        }
+
+                        lines.slice(0, 5).forEach(line => {
+                            markdown += `- ${line}\n`;
+                        });
+                    }
+                }
+
+                document.getElementById('mindmapLoader').style.display = 'none';
+                document.getElementById('mindmapStatus').style.display = 'none';
+                document.getElementById('mindmapContainer').style.display = 'block';
+
+                const checkMarkmap = setInterval(() => {
+                    if (window.markmap && window.markmap.Transformer && window.markmap.Markmap) {
+                        clearInterval(checkMarkmap);
+                        const { Transformer, Markmap, loadCSS, loadJS } = window.markmap;
+                        const transformer = new Transformer();
+                        const { root, features } = transformer.transform(markdown);
+                        const { styles, scripts } = transformer.getUsedAssets(features);
+                        if (styles) loadCSS(styles);
+                        if (scripts) loadJS(scripts, { getMarkmap: () => window.markmap });
+
+                        setTimeout(() => {
+                            Markmap.create('#markmap', {
+                                color: () => 'var(--primary)',
+                                maxWidth: 300,
+                            }, root);
+                        }, 200);
+                    }
+                }, 100);
+
+                showToast(t('mindmapSuccess'));
+            } catch (error) {
+                console.error(error);
+                document.getElementById('mindmapLoader').style.display = 'none';
+                document.getElementById('mindmapStatus').innerText = t('mindmapError');
+            }
+        };
+
+        // -------------------- إحصائيات الزوار (محدث لإزالة fox) --------------------
+        async function recordVisitAndFetchTotal() {
+            try {
+                const today = new Date().toISOString().split('T')[0];
+                const visitedKey = `visited_vnpdf_${today}`; // تم التعديل هنا
+                const isUnique = !localStorage.getItem(visitedKey);
+                
+                const { data: todayStats } = await supabaseClient
+                    .from('user_stats')
+                    .select('*')
+                    .eq('visit_date', today)
+                    .single();
+                
+                if (todayStats) {
+                    await supabaseClient
+                        .from('user_stats')
+                        .update({ 
+                            visit_count: todayStats.visit_count + 1,
+                            unique_visitors: isUnique ? todayStats.unique_visitors + 1 : todayStats.unique_visitors 
+                        })
+                        .eq('id', todayStats.id);
+                } else {
+                    await supabaseClient
+                        .from('user_stats')
+                        .insert([{ 
+                            visit_date: today, 
+                            visit_count: 1, 
+                            unique_visitors: isUnique ? 1 : 0 
+                        }]);
+                }
+                
+                if (isUnique) localStorage.setItem(visitedKey, 'true');
+                
+                const { data: allStats } = await supabaseClient.from('user_stats').select('unique_visitors');
+                let totalUnique = 0;
+                if (allStats) allStats.forEach(stat => totalUnique += stat.unique_visitors);
+                
+                document.getElementById('userCount').textContent = (AppState.baseUserCount + totalUnique).toLocaleString();
+            } catch (error) {
+                console.error('خطأ في تحديث الإحصائيات:', error);
+            }
+        }
+
+        // -------------------- Service Worker آمن --------------------
+        if ('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:')) {
+            const swCode = `
+                const CACHE_NAME = 'pdf-fox-v1';
+                const urlsToCache = [
+                    '/',
+                    '/index.html',
+                    'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap',
+                    'https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js',
+                    'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2',
+                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
+                    'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
+                    'https://cdn.jsdelivr.net/npm/d3@7',
+                    'https://cdn.jsdelivr.net/npm/markmap-lib@0.16.1/dist/browser/index.min.js',
+                    'https://cdn.jsdelivr.net/npm/markmap-view@0.16.1/dist/browser/index.min.js'
+                ];
+                self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
+                self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
+            `;
+            const blob = new Blob([swCode], { type: 'application/javascript' });
+            navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(console.error);
+        }
+
+        // -------------------- التهيئة --------------------
+        document.addEventListener('DOMContentLoaded', () => {
+            if (AppState.darkMode) {
+                document.body.classList.add('dark');
+                document.querySelector('.theme-toggle').textContent = '☀️';
+            }
+            document.documentElement.dir = AppState.lang === 'ar' ? 'rtl' : 'ltr';
+            document.querySelector('.lang-toggle').textContent = AppState.lang === 'ar' ? 'EN' : 'AR';
+            applyTranslations();
+            applyHtmlTranslations();
+            updateMetaTags();
+            fetchAds();
+            recordVisitAndFetchTotal();
+        });
+    </script>
+</body>
+</html>
